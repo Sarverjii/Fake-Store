@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { FaDesktop, FaShoppingCart, FaBars } from 'react-icons/fa';
+import { FaDesktop, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import styles from './Header.module.css';
 
 function Header() {
-  const [cartlength, setCartLength] = useState(0);
+  const [cartLength, setCartLength] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(prev => !prev);
+  const closeMenu = () => setIsMenuOpen(false);
 
   useEffect(() => {
     const updateCartLength = () => {
@@ -16,11 +17,7 @@ function Header() {
     };
 
     updateCartLength();
-
-    // Optional: Listen for cart updates via storage change
     window.addEventListener('storage', updateCartLength);
-    
-    // Polling every second in case storage event doesn't fire in same tab
     const interval = setInterval(updateCartLength, 1000);
 
     return () => {
@@ -30,28 +27,45 @@ function Header() {
   }, []);
 
   return (
-    <header className={styles.header}>
-      <Link to="/" className={styles.logo}>
-        <FaDesktop aria-hidden="true" size={24} />
-        <span>Fake Store</span>
-      </Link>
+    <>
+      <header className={styles.header}>
+        <Link to="/" className={styles.logo}>
+          <FaDesktop size={24} />
+          <span>Fake Store</span>
+        </Link>
 
-      <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ''}`}>
-        <NavLink to="/" className={({ isActive }) => isActive ? styles.active : ''}>Home</NavLink>
-        <NavLink to="/products" className={({ isActive }) => isActive ? styles.active : ''}>Products</NavLink>
-        <NavLink to="/about" className={({ isActive }) => isActive ? styles.active : ''}>About</NavLink>
-        <NavLink to="/contact" className={({ isActive }) => isActive ? styles.active : ''}>Contact Us</NavLink>
-      </nav>
+        <nav className={styles.desktopNav}>
+          <NavLink to="/" className={({ isActive }) => isActive ? styles.active : ''}>Home</NavLink>
+          <NavLink to="/products" className={({ isActive }) => isActive ? styles.active : ''}>Products</NavLink>
+          <NavLink to="/about" className={({ isActive }) => isActive ? styles.active : ''}>About</NavLink>
+          <NavLink to="/contact" className={({ isActive }) => isActive ? styles.active : ''}>Contact Us</NavLink>
+        </nav>
 
-      <Link to="/cart" className={styles.cartIcon}>
-        <FaShoppingCart color="white" size={22} />
-        {cartlength > 0 && <span className={styles.cartCount}>{cartlength}</span>}
-      </Link>
+        <div className={styles.rightSection}>
+          <Link to="/cart" className={styles.cartIcon}>
+            <FaShoppingCart size={22} />
+            {cartLength > 0 && <span className={styles.cartCount}>{cartLength}</span>}
+          </Link>
 
-      <div className={styles.hamburger} onClick={toggleMenu}>
-        <FaBars color="white" size={24} />
+          <div className={styles.hamburger} onClick={toggleMenu}>
+            <FaBars size={24} />
+          </div>
+        </div>
+      </header>
+
+      {/* Side Drawer & Backdrop */}
+      <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.open : ''}`}>
+        <div className={styles.closeBtn} onClick={closeMenu}>
+          <FaTimes size={22} />
+        </div>
+        <NavLink to="/" onClick={closeMenu} className={({ isActive }) => isActive ? styles.active : ''}>Home</NavLink>
+        <NavLink to="/products" onClick={closeMenu} className={({ isActive }) => isActive ? styles.active : ''}>Products</NavLink>
+        <NavLink to="/about" onClick={closeMenu} className={({ isActive }) => isActive ? styles.active : ''}>About</NavLink>
+        <NavLink to="/contact" onClick={closeMenu} className={({ isActive }) => isActive ? styles.active : ''}>Contact Us</NavLink>
       </div>
-    </header>
+
+      {isMenuOpen && <div className={styles.backdrop} onClick={closeMenu}></div>}
+    </>
   );
 }
 

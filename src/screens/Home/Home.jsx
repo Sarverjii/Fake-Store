@@ -11,7 +11,7 @@ function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getProductsList(10);
+      const data = await getProductsList(12);
       setProducts(data);
     };
     fetchData();

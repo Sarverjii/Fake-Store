@@ -26,7 +26,7 @@ export default function ProductCard({ id }) {
     if (!product) return null;
 
     const originalPrice = product.discount > 0
-        ? ((100 + product.discount)/100 * product.price).toFixed(2)
+        ? ((100 + product.discount)/100 * product.price*84).toFixed(2)
         : null;
 
     return (
@@ -35,8 +35,8 @@ export default function ProductCard({ id }) {
             <div className={styles.info}>
                 <h3 className={styles.title}>{product.title}</h3>
                 <div className={styles.priceRow}>
-                    {originalPrice && <span className={styles.originalPrice}>${originalPrice}</span>}
-                    <span className={styles.finalPrice}>${product.price}</span>
+                    {originalPrice && <span className={styles.originalPrice}>&#8377;{originalPrice}</span>}
+                    <span className={styles.finalPrice}>&#8377;{product.price*84}</span>
                 </div>
                 <div className={styles.meta}>{product.brand}</div>
             </div>

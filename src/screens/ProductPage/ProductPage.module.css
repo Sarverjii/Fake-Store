@@ -193,3 +193,57 @@
     transform: scale(1);
   }
 }
+
+
+
+/* Back Button Styling */
+.productPage > a button {
+  background-color: #2C3E50;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.productPage > a button:hover {
+  background-color: #1a252f;
+}
+
+/* Similar Products Section */
+.similarProductsSection {
+  margin-top: 4rem;
+}
+
+.similarProductsSection h1 {
+  font-size: 1.6rem;
+  color: #2C3E50;
+  margin-bottom: 1.5rem;
+}
+
+.similarGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Optional: Adjust ProductCard size */
+.similarGrid :global(.productCard) {
+  height: 100%;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .similarProductsSection h1 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .productPage > a button {
+    width: 100%;
+    text-align: center;
+  }
+}
